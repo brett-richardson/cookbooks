@@ -6,9 +6,9 @@
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# 
+#
 #     http://www.apache.org/licenses/LICENSE-2.0
-# 
+#
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -38,7 +38,7 @@ class Chef
               db.execute("CREATE LOGIN #{@new_resource.username} WITH PASSWORD = '#{@new_resource.password}', CHECK_POLICY = OFF").do
               @new_resource.updated_by_last_action(true)
             end
-            unless exists?(:users)
+            unless exists?(:controllers)
               if @new_resource.database_name
                 Chef::Log.info("#{@new_resource} creating user in '#{@new_resource.database_name}' database context.")
                 db.execute("USE #{@new_resource.database_name}").do
@@ -55,7 +55,7 @@ class Chef
 
         def action_drop
           begin
-            if exists?(:users)
+            if exists?(:controllers)
               db.execute("DROP USER #{@new_resource.username}").do
               @new_resource.updated_by_last_action(true)
             end
@@ -85,9 +85,9 @@ class Chef
         end
 
         private
-        def exists?(type=:users)
+        def exists?(type=:controllers)
           case type
-          when :users
+          when :controllers
             table = "database_principals"
             if @new_resource.database_name
               Chef::Log.debug("#{@new_resource} searching for existing user in '#{@new_resource.database_name}' database context.")

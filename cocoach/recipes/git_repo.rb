@@ -1,0 +1,1 @@
+# Sets up a host git repo based on the current project's local git repo.

@@ -23,9 +23,11 @@
 include_recipe "build-essential"
 
 packages = value_for_platform(
-    ["centos","redhat","fedora"] => {'default' => ['pcre-devel', 'openssl-devel']},
-    "default" => ['libpcre3', 'libpcre3-dev', 'libssl-dev']
-  )
+	["centos","redhat","fedora"] => {
+		'default' => ['pcre-devel', 'openssl-devel']
+	},
+	"default" => ['libpcre3', 'libpcre3-dev', 'libssl-dev']
+)
 
 packages.each do |devpkg|
   package devpkg
@@ -123,13 +125,13 @@ else
     mode "0755"
   end
 
-  #install sysconfig file (not really needed but standard)
-  template "/etc/sysconfig/nginx" do
-    source "nginx.sysconfig.erb"
-    owner "root"
-    group "root"
-    mode "0644"
-  end
+  # FIXME: This has been removed because the sysconfig dir does not exist # install sysconfig file (not really needed but standard)
+  #template "/etc/sysconfig/nginx" do
+  #  source "nginx.sysconfig.erb"
+  #  owner "root"
+  #  group "root"
+  #  mode "0644"
+  #end
 
   #register service
   service "nginx" do
